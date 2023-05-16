@@ -13,7 +13,6 @@ export async function POST(
             name,
             password
         } = body;
-
         if (!email || !name || !password) {
             return new NextResponse('Missing info', { status: 400 });
         }
@@ -28,10 +27,10 @@ export async function POST(
             }
         });
 
-        return NextResponse.json(user);
+        return  NextResponse.json(user);
     } catch (error: any) {
         console.log(error, 'Registration Error!');
-        return new NextResponse('Internal Error!', { status: 500 });
+        return new NextResponse(error+'Internal Error!', { status: 500 });
     }
 
 }

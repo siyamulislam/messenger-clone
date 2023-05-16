@@ -3,7 +3,7 @@
 import axios from "axios";
 // import { signIn, useSession } from 'next-auth/react';
 import { useCallback, useEffect, useState } from 'react';
-import { BsGithub, BsGoogle  } from 'react-icons/bs';
+import { BsGithub, BsGoogle } from 'react-icons/bs';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from "next/navigation";
 
@@ -50,9 +50,12 @@ const AuthForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-  
+    // console.log(data);
     if (variant === 'REGISTER') {
       axios.post('/api/register', data)
+        .catch(() => toast.error('Something went wrong!'))
+        .finally(() => setIsLoading(false))
+      // axios.post('http://localhost:3000/api/register', data)
       // .then(() => signIn('credentials', {
       //   ...data,
       //   redirect: false,
@@ -102,11 +105,11 @@ const AuthForm = () => {
     //     }
     //   })
     //   .finally(() => setIsLoading(false));
-  } 
+  }
 
-  return ( 
+  return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div 
+      <div
         className="
         bg-white
           px-4
@@ -116,8 +119,8 @@ const AuthForm = () => {
           sm:px-10
         "
       >
-        <form 
-          className="space-y-6" 
+        <form
+          className="space-y-6"
           onSubmit={handleSubmit(onSubmit)}
         >
           {variant === 'REGISTER' && (
@@ -126,26 +129,26 @@ const AuthForm = () => {
               register={register}
               errors={errors}
               required
-              id="name" 
+              id="name"
               label="Name"
             />
           )}
-          <Input 
+          <Input
             disabled={isLoading}
             register={register}
             errors={errors}
             required
-            id="email" 
-            label="Email address" 
+            id="email"
+            label="Email address"
             type="email"
           />
-          <Input 
+          <Input
             disabled={isLoading}
             register={register}
             errors={errors}
             required
-            id="password" 
-            label="Password" 
+            id="password"
+            label="Password"
             type="password"
           />
           <div>
@@ -157,7 +160,7 @@ const AuthForm = () => {
 
         <div className="mt-6">
           <div className="relative">
-            <div 
+            <div
               className="
                 absolute 
                 inset-0 
@@ -175,17 +178,17 @@ const AuthForm = () => {
           </div>
 
           <div className="mt-6 flex gap-2">
-            <AuthSocialButton 
-              icon={BsGithub} 
-              onClick={() => socialAction('github')} 
+            <AuthSocialButton
+              icon={BsGithub}
+              onClick={() => socialAction('github')}
             />
-            <AuthSocialButton 
-              icon={BsGoogle} 
-              onClick={() => socialAction('google')} 
+            <AuthSocialButton
+              icon={BsGoogle}
+              onClick={() => socialAction('google')}
             />
           </div>
         </div>
-        <div 
+        <div
           className="
             flex 
             gap-2 
@@ -197,10 +200,10 @@ const AuthForm = () => {
           "
         >
           <div>
-            {variant === 'LOGIN' ? 'New to Messenger?' : 'Already have an account?'} 
+            {variant === 'LOGIN' ? 'New to Messenger?' : 'Already have an account?'}
           </div>
-          <div 
-            onClick={toggleVariant} 
+          <div
+            onClick={toggleVariant}
             className="underline cursor-pointer"
           >
             {variant === 'LOGIN' ? 'Create an account' : 'Login'}
@@ -210,5 +213,5 @@ const AuthForm = () => {
     </div>
   );
 }
- 
+
 export default AuthForm;
