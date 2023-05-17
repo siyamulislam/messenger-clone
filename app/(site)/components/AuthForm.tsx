@@ -22,8 +22,8 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
-      router.push('/conversations')
-      console.log('autheddddddddddddddddddd');
+      // router.push('/conversations')
+      router.push('/users')
     }
   }, [session?.status, router]);
 
@@ -54,24 +54,20 @@ const AuthForm = () => {
     // console.log(data);
     if (variant === 'REGISTER') {
       axios.post('/api/register', data)
-        .catch((error) => toast.error('Something went wrong!'+error))
-        .finally(() => setIsLoading(false))
-      // axios.post('http://localhost:3000/api/register', data)
-      // .then(() => signIn('credentials', {
-      //   ...data,
-      //   redirect: false,
-      // }))
+      .then(() => signIn('credentials', {
+        ...data,
+        redirect: false,
+      }))
       // .then((callback) => {
       //   if (callback?.error) {
       //     toast.error('Invalid credentials!');
       //   }
-
-      //   if (callback?.ok) {
+      //   if (callback?.ok && !callback.error) {
       //     router.push('/conversations')
       //   }
       // })
-      // .catch(() => toast.error('Something went wrong!'))
-      // .finally(() => setIsLoading(false))
+      .catch((error) => toast.error('Something went wrong!'+error))
+      .finally(() => setIsLoading(false))
     }
 
     if (variant === 'LOGIN') {
@@ -89,6 +85,7 @@ const AuthForm = () => {
         if (callback?.ok && !callback.error) {
           toast.success('logged In!'); 
 
+          router.push('/users')
           // router.push('/conversations')
         }
       })
