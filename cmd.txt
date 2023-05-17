@@ -4,3 +4,4 @@ npm run dev
 npx prisma db push
 npm install next-auth@latest @prisma/client @next-auth/prisma-adapter bcrypt
 npm install -D @types/bcrypt
+ npm i next-superjson-plugin
