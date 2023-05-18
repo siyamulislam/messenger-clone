@@ -7,3 +7,4 @@ npm install -D @types/bcrypt
  npm i next-superjson-plugin
  npm i date-fns
  npm i next-cloudinary
+ npm i @headlessui/react
