@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { MdOutlineGroupAdd } from 'react-icons/md';
 import clsx from "clsx";
-import { find, uniq } from 'lodash';
+import { find } from 'lodash';
 
 import useConversation from "@/app/hooks/useConversation";
 import { pusherClient } from "@/app/libs/pusher";
@@ -20,8 +20,8 @@ interface ConversationListProps {
   title?: string;
 }
 
-const ConversationList: React.FC<ConversationListProps> = ({ 
-  initialItems, 
+const ConversationList: React.FC<ConversationListProps> = ({
+  initialItems,
   users
 }) => {
   const [items, setItems] = useState(initialItems);
@@ -70,22 +70,29 @@ const ConversationList: React.FC<ConversationListProps> = ({
       setItems((current) => {
         return [...current.filter((convo) => convo.id !== conversation.id)]
       });
+      if(conversationId===conversation.id){
+        router.push('/conversations')
+      }
     }
 
     pusherClient.bind('conversation:update', updateHandler)
     pusherClient.bind('conversation:new', newHandler)
     pusherClient.bind('conversation:remove', removeHandler)
-    return ()=>{
+    return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind('conversation:new', newHandler)
+      pusherClient.unbind('conversation:update', updateHandler)
+      pusherClient.unbind('conversation:remove', removeHandler)
+
+
     }
-  }, [pusherKey, router]);
+  }, [pusherKey,conversationId, router]);
 
   return (
     <>
-      <GroupChatModal 
-        users={users} 
-        isOpen={isModalOpen} 
+      <GroupChatModal
+        users={users}
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
       <aside className={clsx(`
@@ -105,8 +112,8 @@ const ConversationList: React.FC<ConversationListProps> = ({
             <div className="text-2xl font-bold text-neutral-800">
               Messages
             </div>
-            <div 
-              onClick={() => setIsModalOpen(true)} 
+            <div
+              onClick={() => setIsModalOpen(true)}
               className="
                 rounded-full 
                 p-2 
@@ -130,7 +137,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         </div>
       </aside>
     </>
-   );
+  );
 }
- 
+
 export default ConversationList;
