@@ -8,3 +8,4 @@ npm install -D @types/bcrypt
  npm i date-fns
  npm i next-cloudinary
  npm i @headlessui/react
+ npm i -D @types/lodash
