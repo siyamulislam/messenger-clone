@@ -12,7 +12,11 @@ const nextConfig = {
             "avatars.githubusercontent.com",
             "lh3.googleusercontent.com"
         ]
-    }
+    },
+
+        distDir: "build",
+        // output: 'export',
+      
 }
 
 module.exports = nextConfig
