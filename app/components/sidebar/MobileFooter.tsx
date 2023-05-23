@@ -27,6 +27,7 @@ const MobileFooter = () => {
         lg:hidden
       "
     >
+
       {routes.map((route) => (
         <MobileItem 
           key={route.href} 
@@ -36,6 +37,7 @@ const MobileFooter = () => {
           onClick={route.onClick}
         />
       ))}
+
     </div>
    );
 }
